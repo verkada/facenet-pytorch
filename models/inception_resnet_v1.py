@@ -312,12 +312,22 @@ def load_weights(mdl, name):
     Raises:
         ValueError: If 'pretrained' not equal to 'vggface2' or 'casia-webface'.
     """
+    cached_file = None
     if name == 'vggface2':
-        path = 'https://github.com/timesler/facenet-pytorch/releases/download/v2.2.9/20180402-114759-vggface2.pt'
+        fn = "/data/s3-vaccess-cv-efs/models/pretrained/20180402-114759-vggface2.pt"
+        if os.path.isfile(fn):
+            cached_file = fn
+        else:
+            path = 'https://github.com/timesler/facenet-pytorch/releases/download/v2.2.9/20180402-114759-vggface2.pt'
     elif name == 'casia-webface':
-        path = 'https://github.com/timesler/facenet-pytorch/releases/download/v2.2.9/20180408-102900-casia-webface.pt'
+        fn = "/data/s3-vaccess-cv-efs/models/pretrained/20180408-102900-casia-webface.pt"
+        if os.path.isfile(fn):
+            cached_file = fn
+        else:
+            path = 'https://github.com/timesler/facenet-pytorch/releases/download/v2.2.9/20180408-102900-casia-webface.pt'
     else:
         raise ValueError('Pretrained models only exist for "vggface2" and "casia-webface"')
+
 
     model_dir = os.path.join(get_torch_home(), 'checkpoints')
     os.makedirs(model_dir, exist_ok=True)
