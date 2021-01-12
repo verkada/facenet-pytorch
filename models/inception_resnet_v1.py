@@ -332,7 +332,8 @@ def load_weights(mdl, name):
     model_dir = os.path.join(get_torch_home(), 'checkpoints')
     os.makedirs(model_dir, exist_ok=True)
 
-    cached_file = os.path.join(model_dir, os.path.basename(path))
+    if cached_file is None:
+        cached_file = os.path.join(model_dir, os.path.basename(path))
     if not os.path.exists(cached_file):
         download_url_to_file(path, cached_file)
 
